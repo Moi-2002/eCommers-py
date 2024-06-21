@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Products</h1>
+<ul>
+    {% for product in products %}
+        <li>
+            <a href="{{ url_for('product_detail', id=product.id) }}">{{ product.name }}</a> - ${{ product.price }}
+            <a href="{{ url_for('add_to_cart', product_id=product.id) }}">Add to Cart</a>
+        </li>
+    {% endfor %}
+</ul>
+
+{% if current_user.is_authenticated %}
+<h2>Add a new product</h2>
+<form action="{{ url_for('add_product') }}" method="POST">
+    <input type="text" name="name" placeholder="Product Name" required>
+    <input type="text" name="description" placeholder="Product Description" required>
+    <input type="number" step="0.01" name="price" placeholder="Product Price" required>
+    <button type="submit">Add Product</button>
+</form>
+{% endif %}
+{% endblock %}
